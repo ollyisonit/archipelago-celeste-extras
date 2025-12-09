@@ -142,6 +142,31 @@ class IncludeCSides(Toggle):
     """
     display_name = "Include C-Sides"
 
+class RepeatedCheckpointItemCount(Range):
+    """
+    Shuffle this many extra checkpoint items into the item pool. This creates multiple copies of each checkpoint item to increase the likelihood of encountering them during the run, as well as reducing the amount of junk items.
+    """
+    display_name = "RepeatedCheckpointItemCount"
+
+class RepeatedInteractableItemCount(Range):
+    """
+    Shuffle this many extra interactable items into the item pool. This creates multiple copies of each interactable item to increase the likelihood of encountering them during the run, as well as reducing the amount of junk items.
+    """
+    display_name = "RepeatedInteractableItemCount"
+
+class RepeatedItemSelectionMethod(Choice):
+    """
+    Method to use for populating repeated items
+
+    Balanced: Add repeated items evently (ie. +1 dash refill, +1 swap block, +1 spring)
+
+    Random: Add repeated items completely randomly (ie. +0 dash refills, +2 swap blocks, +1 spring)
+    """
+    display_name = "Repeated Item Selection Method"
+    option_balanced = 0
+    option_random = 1
+    default = 0
+
 
 class JunkFillPercentage(Range):
     """
@@ -151,6 +176,12 @@ class JunkFillPercentage(Range):
     range_start = 0
     range_end = 100
     default = 50
+
+class ExcludeJunkCrystalHearts(Toggle):
+    """
+    Remove crystal hearts from the junk pool and use raspberries instead.
+    """
+    display_name = "Exclude Junk Crystal Hearts"
 
 class TrapFillPercentage(Range):
     """
@@ -392,9 +423,14 @@ celeste_option_groups = [
         IncludeFarewell,
         IncludeBSides,
         IncludeCSides,
+        RepeatedCheckpointItemCount,
+        RepeatedInteractableItemCount,
+        RepeatedItemSelectionMethod
     ]),
     OptionGroup("Junk and Traps", [
         JunkFillPercentage,
+        ExcludeJunkCrystalHearts,
+        ExcludeJunkCasettes,
         TrapFillPercentage,
         TrapExpirationAction,
         TrapExpirationAmount,
@@ -489,6 +525,8 @@ class CelesteOptions(PerGameCommonOptions):
     total_strawberries: TotalStrawberries
     strawberries_required_percentage: StrawberriesRequiredPercentage
 
+    exclude_junk_crystal_hearts: ExcludeJunkCrystalHearts
+    exclude_junk_casettes: ExcludeJunkCasettes
     junk_fill_percentage: JunkFillPercentage
     trap_fill_percentage: TrapFillPercentage
     trap_expiration_action: TrapExpirationAction
@@ -517,6 +555,9 @@ class CelesteOptions(PerGameCommonOptions):
     include_farewell: IncludeFarewell
     include_b_sides: IncludeBSides
     include_c_sides: IncludeCSides
+    repeated_checkpoint_item_count: RepeatedCheckpointItemCount
+    repeated_interactable_item_count: RepeatedInteractableItemCount
+    repeated_item_selection_method: RepeatedItemSelectionMethod
 
     music_shuffle: MusicShuffle
     require_cassettes: RequireCassettes

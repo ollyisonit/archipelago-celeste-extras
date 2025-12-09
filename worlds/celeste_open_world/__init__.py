@@ -114,6 +114,17 @@ class CelesteOpenWorld(World):
         else:
             return CelesteItem(name, ItemClassification.progression, None, self.player)
 
+    def get_nth_random_item(self, index: int, item_pool: list[str],  method: str) -> str:
+        """Get the nth random item from the given list using the selected method. Balanced will cycle through the list, 
+        stopping at each item once. Random will choose items completely randomly."""
+        # These strings are taken from the RepeatedItemSelectionMethod option
+        if method.lower() == 'balanced':
+            return item_pool[index % len(item_pool)]
+        elif method.lower() == 'random':
+            return self.random.choice(item_pool)
+        else:
+            raise ValueError(f"Value '{method}' is not a valid randomization method!")
+
     def create_items(self) -> None:
         item_pool: list[CelesteItem] = []
 
@@ -144,6 +155,16 @@ class CelesteOpenWorld(World):
                 checkpoint_loc.place_locked_item(self.create_item(item_name))
                 location_count -= 1
 
+        # Repeated Checkpoints
+        if self.options.repeated_checkpoint_item_count > 0:
+            shuffled_checkpoints = self.active_checkpoint_names.copy()
+            self.random.shuffle(shuffled_checkpoints)
+            for i in range(self.options.repeated_checkpoint_item_count):
+                item_pool.append(
+                    self.create_item(
+                        self.get_nth_random_item(
+                            i, shuffled_checkpoints, self.options.repeated_item_selection_method.current_key)))
+
         # Keys
         if self.options.keysanity:
             item_pool += [self.create_item(item_name) for item_name in self.active_key_names]
@@ -170,6 +191,16 @@ class CelesteOpenWorld(World):
 
         # Interactables
         item_pool += [self.create_item(item_name) for item_name in sorted(self.active_items)]
+
+        # Repeated Interactables
+        if self.options.repeated_interactable_item_count > 0:
+            shuffled_interactables = sorted(self.active_items.copy())
+            self.random.shuffle(shuffled_interactables)
+            for i in range(self.options.repeated_interactable_item_count):
+                item_pool.append(
+                    self.create_item(
+                        self.get_nth_random_item(
+                            i, shuffled_interactables, self.options.repeated_item_selection_method.current_key)))
 
         # Strawberries
         real_total_strawberries: int = min(self.options.total_strawberries.value, location_count - goal_area_location_count - len(item_pool))
@@ -224,11 +255,12 @@ class CelesteOpenWorld(World):
                         self.multiworld.push_precollected(self.create_item(level_cassette_items[level_name]))
 
         # Crystal Hearts
-        for name in crystal_heart_item_data_table.keys():
-            if total_filler_count > 0:
-                if name not in self.multiworld.precollected_items[self.player]:
-                    item_pool.append(self.create_item(name))
-                    total_filler_count -= 1
+        if not self.options.exclude_junk_crystal_hearts:
+            for name in crystal_heart_item_data_table.keys():
+                if total_filler_count > 0:
+                    if name not in self.multiworld.precollected_items[self.player]:
+                        item_pool.append(self.create_item(name))
+                        total_filler_count -= 1
 
         trap_count = 0 if (len(trap_weights) == 0) else math.ceil(total_filler_count * (self.options.trap_fill_percentage.value / 100.0))
         total_filler_count -= trap_count
