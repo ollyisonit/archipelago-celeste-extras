@@ -139,6 +139,11 @@ class CelesteOpenWorld(World):
                     location_count -= 1
                 else:
                     item_pool.append(self.create_item(item_name))
+                    # If checkpoints are forced to unlock themselves, assign each checkpoint item to its location
+                    # But don't decrease the location counter because locations can still be shuffled as items too
+                    if self.options.checkpoints_unlock_themselves:
+                        checkpoint_loc: Location = self.get_location(item_name)
+                        checkpoint_loc.place_locked_item(self.create_item(item_name))
             else:
                 checkpoint_loc: Location = self.get_location(item_name)
                 checkpoint_loc.place_locked_item(self.create_item(item_name))

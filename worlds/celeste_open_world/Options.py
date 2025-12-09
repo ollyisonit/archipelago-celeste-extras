@@ -77,6 +77,12 @@ class Checkpointsanity(Toggle):
     """
     display_name = "Checkpointsanity"
 
+class CheckpointsUnlockThemselves(Toggle):
+    """
+    Makes it so that reaching a checkpoint will always unlock the item for that checkpoint, even if the checkpoint is also shuffled into the item pool by Checkpointsanity. If Checkpointsanity is active, this will create two ways to unlock each checkpoint--finding the randomized item, OR reaching the checkpoint normally.
+    """
+    display_name = "Checkpoints Always Unlock Themselves"
+
 class Binosanity(Toggle):
     """
     Determines whether using Binoculars sends location checks
@@ -382,6 +388,7 @@ celeste_option_groups = [
     ]),
     OptionGroup("Location Options", [
         Checkpointsanity,
+        CheckpointsUnlockThemselves,
         Binosanity,
         Keysanity,
         Gemsanity,
@@ -507,6 +514,7 @@ class CelesteOptions(PerGameCommonOptions):
     zoom_trap_weight: ZoomTrapWeight
 
     checkpointsanity: Checkpointsanity
+    checkpoints_unlock_themselves: CheckpointsUnlockThemselves
     binosanity: Binosanity
     keysanity: Keysanity
     gemsanity: Gemsanity
