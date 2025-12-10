@@ -150,8 +150,8 @@ class IncludeCSides(Toggle):
 
 class RepeatedCheckpointItemCount(Range):
     """
-    Shuffle this many extra checkpoint items into the item pool. This creates multiple copies of each checkpoint item to increase the likelihood of encountering them during the run, as well as reducing the amount of junk items.
-    There are 25 checkpoints in the A main sides, 3 in Core A, 25 in the B sides (including 3 from Core B), and 8 in Farewell.
+    Shuffle this many extra checkpoint items into the item pool. This creates multiple copies of each checkpoint item to increase the likelihood of encountering them during the run, as well as reducing the amount of junk items. If goal area checkpointsanity is disabled, goal area checkpoints will not be shuffled in. 
+    There are 25 checkpoints in A1-A7, 3 in Core A, 25 in the B sides (including 3 from Core B), and 8 in Farewell.
     """
     display_name = "RepeatedCheckpointItemCount"
     range_start = 0
