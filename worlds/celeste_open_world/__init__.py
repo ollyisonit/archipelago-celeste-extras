@@ -164,6 +164,12 @@ class CelesteOpenWorld(World):
         # Repeated Checkpoints
         if self.options.repeated_checkpoint_item_count > 0:
             shuffled_checkpoints = self.active_checkpoint_names.copy()
+
+            if not self.options.goal_area_checkpointsanity:
+                shuffled_checkpoints = list(filter(
+                    lambda checkpoint_name: goal_area_option_to_display_name[
+                        self.options.goal_area] not in checkpoint_name,
+                    shuffled_checkpoints))
             self.random.shuffle(shuffled_checkpoints)
             for i in range(self.options.repeated_checkpoint_item_count):
                 item_pool.append(
