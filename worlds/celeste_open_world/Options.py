@@ -145,6 +145,7 @@ class IncludeCSides(Toggle):
 class RepeatedCheckpointItemCount(Range):
     """
     Shuffle this many extra checkpoint items into the item pool. This creates multiple copies of each checkpoint item to increase the likelihood of encountering them during the run, as well as reducing the amount of junk items.
+    There are 25 checkpoints in the A main sides, 3 in Core A, 25 in the B sides (including 3 from Core B), and 8 in Farewell.
     """
     display_name = "RepeatedCheckpointItemCount"
     range_start = 0
@@ -154,10 +155,11 @@ class RepeatedCheckpointItemCount(Range):
 class RepeatedInteractableItemCount(Range):
     """
     Shuffle this many extra interactable items into the item pool. This creates multiple copies of each interactable item to increase the likelihood of encountering them during the run, as well as reducing the amount of junk items.
+    There are 23 interactables in the main game, 3 additional in Core, and 8 additional in Farewell 
     """
     display_name = "RepeatedInteractableItemCount"
     range_start = 0
-    range_end = 0
+    range_end = 202
     default = 0
 
 class RepeatedItemSelectionMethod(Choice):
@@ -170,7 +172,7 @@ class RepeatedItemSelectionMethod(Choice):
     """
     display_name = "Repeated Item Selection Method"
     option_balanced = 0
-    option_random = 1
+    option_fully_random = 1
     default = 0
 
 
@@ -436,7 +438,6 @@ celeste_option_groups = [
     OptionGroup("Junk and Traps", [
         JunkFillPercentage,
         ExcludeJunkCrystalHearts,
-        ExcludeJunkCasettes,
         TrapFillPercentage,
         TrapExpirationAction,
         TrapExpirationAmount,
@@ -532,7 +533,6 @@ class CelesteOptions(PerGameCommonOptions):
     strawberries_required_percentage: StrawberriesRequiredPercentage
 
     exclude_junk_crystal_hearts: ExcludeJunkCrystalHearts
-    exclude_junk_casettes: ExcludeJunkCasettes
     junk_fill_percentage: JunkFillPercentage
     trap_fill_percentage: TrapFillPercentage
     trap_expiration_action: TrapExpirationAction
