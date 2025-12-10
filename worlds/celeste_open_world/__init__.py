@@ -129,7 +129,6 @@ class CelesteOpenWorld(World):
         item_pool: list[CelesteItem] = []
 
         location_count: int = len(self.get_locations())
-        goal_area_location_count: int = sum(goal_area_option_to_display_name[self.options.goal_area] in loc.name for loc in self.get_locations())
 
         # Goal Items
         goal_item_loc: Location = self.get_location(goal_area_to_location_name[self.goal_area])
@@ -209,7 +208,7 @@ class CelesteOpenWorld(World):
                             i, shuffled_interactables, self.options.repeated_item_selection_method.current_key)))
 
         # Strawberries
-        real_total_strawberries: int = min(self.options.total_strawberries.value, location_count - goal_area_location_count - len(item_pool))
+        real_total_strawberries: int = min(self.options.total_strawberries.value, location_count - len(item_pool))
         self.strawberries_required = int(real_total_strawberries * (self.options.strawberries_required_percentage / 100))
 
         menu_region = self.get_region("Menu")
