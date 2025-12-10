@@ -147,12 +147,18 @@ class RepeatedCheckpointItemCount(Range):
     Shuffle this many extra checkpoint items into the item pool. This creates multiple copies of each checkpoint item to increase the likelihood of encountering them during the run, as well as reducing the amount of junk items.
     """
     display_name = "RepeatedCheckpointItemCount"
+    range_start = 0
+    range_end = 202
+    default = 0
 
 class RepeatedInteractableItemCount(Range):
     """
     Shuffle this many extra interactable items into the item pool. This creates multiple copies of each interactable item to increase the likelihood of encountering them during the run, as well as reducing the amount of junk items.
     """
     display_name = "RepeatedInteractableItemCount"
+    range_start = 0
+    range_end = 0
+    default = 0
 
 class RepeatedItemSelectionMethod(Choice):
     """
