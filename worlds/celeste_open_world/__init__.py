@@ -120,7 +120,7 @@ class CelesteOpenWorld(World):
         # These strings are taken from the RepeatedItemSelectionMethod option
         if method.lower() == 'balanced':
             return item_pool[index % len(item_pool)]
-        elif method.lower() == 'random':
+        elif method.lower() == 'fully_random':
             return self.random.choice(item_pool)
         else:
             raise ValueError(f"Value '{method}' is not a valid randomization method!")
